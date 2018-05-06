@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new MyDecoration(this));
         mRecyclerView.addOnScrollListener(new EndLessOnScrollListener(manager) {
             @Override
             public void onLoadMore(final int currentPage) {
