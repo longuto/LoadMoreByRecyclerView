@@ -37,42 +37,59 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recy);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(manager);
-        refreshDatas("下拉刷新第0页 + ");
+        MyLayoutManager myManage = new MyLayoutManager();
+        mRecyclerView.setLayoutManager(myManage);
+        myManage.setAutoMeasureEnabled(true);
+        datas = new ArrayList<>();
+        datas.add("111111111");
+        datas.add("222222222");
+        datas.add("333333333");
+        datas.add("44444444444444444444444");
+        datas.add("555555555555555555555555555555555");
+        datas.add("66");
+        datas.add("777777");
+        datas.add("8888888");
+        datas.add("99999");
+        datas.add("11");
         mAdapter = new MyRecyclerViewAdapter(this, datas);
-        TextView footView = new TextView(this);
-        footView.setText("正在加载中,请稍后...");
-        mAdapter.setmFooterView(footView);
-        mAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                String itemData = mAdapter.getItemData(position);
-                showToast("当前数据为：" + itemData);
-            }
-        });
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new MyDecoration(this));
-        mRecyclerView.addOnScrollListener(new EndLessOnScrollListener(manager) {
-            @Override
-            public void onLoadMore(final int currentPage) {
-                showToast("当前页为"  + currentPage);
-                if(currentPage >= 4) {  // 当前加载到第一页之后停止加载，包括初始化的第一页
-                    ((TextView)mAdapter.getmFooterView()).setText("我是有底线的~");
-                } else {
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            SystemClock.sleep(3000);    // 休眠3秒
-                            Message msg = Message.obtain();
-                            msg.what = 0x1000001;
-                            msg.obj = currentPage;
-                            mHandler.sendMessage(msg);
-                        }
-                    } .start();
-                }
-            }
-        });
+
+//        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        mRecyclerView.setLayoutManager(manager);
+//        refreshDatas("下拉刷新第0页 + ");
+//        mAdapter = new MyRecyclerViewAdapter(this, datas);
+//        TextView footView = new TextView(this);
+//        footView.setText("正在加载中,请稍后...");
+//        mAdapter.setmFooterView(footView);
+//        mAdapter.setOnItemClickListener(new OnRecyclerViewItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                String itemData = mAdapter.getItemData(position);
+//                showToast("当前数据为：" + itemData);
+//            }
+//        });
+//        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.addItemDecoration(new MyDecoration(this));
+//        mRecyclerView.addOnScrollListener(new EndLessOnScrollListener(manager) {
+//            @Override
+//            public void onLoadMore(final int currentPage) {
+//                showToast("当前页为"  + currentPage);
+//                if(currentPage >= 4) {  // 当前加载到第一页之后停止加载，包括初始化的第一页
+//                    ((TextView)mAdapter.getmFooterView()).setText("我是有底线的~");
+//                } else {
+//                    new Thread() {
+//                        @Override
+//                        public void run() {
+//                            SystemClock.sleep(3000);    // 休眠3秒
+//                            Message msg = Message.obtain();
+//                            msg.what = 0x1000001;
+//                            msg.obj = currentPage;
+//                            mHandler.sendMessage(msg);
+//                        }
+//                    } .start();
+//                }
+//            }
+//        });
     }
 
     Handler mHandler = new Handler() {
